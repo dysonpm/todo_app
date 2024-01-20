@@ -1,18 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app/components/dialog_box.dart';
 import 'package:todo_app/components/todo_tile.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
+  // text controller
+  final _controller = TextEditingController();
+
   // List of todo tasks
   List toDoList = [
     ["Make Tutorial", false],
-    ["Gorcery Shopping", false],
+    ["Grocery Shopping", false],
   ];
 
   // checkbox was tapped
@@ -22,6 +26,18 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  // Create a new Task
+  void createNewTask() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return DialogBox(
+          controller: _controller,
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,6 +45,10 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: Text('TO DO'),
         elevation: 0,
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: createNewTask,
+        child: Icon(Icons.add),
       ),
       body: ListView.builder(
         itemCount: toDoList.length,
